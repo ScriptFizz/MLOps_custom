@@ -3,6 +3,10 @@
 /data/processed/
 /data/raw/
 
+#
+artifacts/
+mlruns/
+
 # Mac OS-specific storage files
 .DS_Store
 
