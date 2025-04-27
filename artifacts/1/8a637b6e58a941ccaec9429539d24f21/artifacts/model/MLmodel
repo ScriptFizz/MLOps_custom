@@ -1,0 +1,44 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.2
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.22.0
+model_size_bytes: 7345859
+model_uuid: 83ad2adc36ec4b0aabf6d3cb7295b00d
+prompts: null
+run_id: 8a637b6e58a941ccaec9429539d24f21
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "long", "name": "Unnamed: 0", "required": true}, {"type": "long",
+    "name": "date", "required": true}, {"type": "long", "name": "bedrooms", "required":
+    true}, {"type": "long", "name": "sqft_living", "required": true}, {"type": "long",
+    "name": "sqft_lot", "required": true}, {"type": "double", "name": "floors", "required":
+    true}, {"type": "long", "name": "waterfront", "required": true}, {"type": "long",
+    "name": "view", "required": true}, {"type": "long", "name": "condition", "required":
+    true}, {"type": "long", "name": "grade", "required": true}, {"type": "long", "name":
+    "sqft_above", "required": true}, {"type": "long", "name": "sqft_basement", "required":
+    true}, {"type": "long", "name": "yr_built", "required": true}, {"type": "long",
+    "name": "yr_renovated", "required": true}, {"type": "long", "name": "zipcode",
+    "required": true}, {"type": "double", "name": "lat", "required": true}, {"type":
+    "double", "name": "long", "required": true}, {"type": "long", "name": "sqft_living15",
+    "required": true}, {"type": "long", "name": "sqft_lot15", "required": true}]'
+  outputs: '[{"type": "double", "name": "price", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-27 20:32:49.449503'

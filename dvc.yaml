@@ -1,14 +1,14 @@
 stages:
   raw_dataset_creation:
-    cmd: python src/data/loading_data.py --config=config.yaml
+    cmd: python src/data/loading_data.py --config=params.yaml
     deps:
     - src/data/loading_data.py
-    - data/external/external_data.csv
+    - data/external/kc_house_data.csv
     outs:
     - data/raw/raw_data.csv
   
   transform data:
-    cmd: python src/data/transform_data.py --config=config.yaml
+    cmd: python src/data/transform_data.py --config=params.yaml
     deps:
     - src/data/transform_data.py
     - data/raw/raw_data.csv
@@ -16,7 +16,7 @@ stages:
     - data/interim/transformed_data.csv
   
   split_data:
-    cmd: python src/data/split_data.py --config=config.yaml
+    cmd: python src/data/split_data.py --config=params.yaml
     deps:
     - src/data/split_data.py
     - data/interim/transformed_data.csv
@@ -25,17 +25,17 @@ stages:
     - data/processed/test.csv
 
   model_train:
-    cmd: python src/models/training_pipeline.py --config=config.yaml
+    cmd: python src/models/training_pipeline.py --config=params.yaml
     deps:
     - data/processed/train.csv
     - data/processed/test.csv
-    - src/models/traininig.pipeline.py
+    - src/models/training_pipeline.py
     params:
     - model_config.params.max_depth
     - model_config.params.n_estimators
 
   log_production_model:
-    cmd: python src/models/production_model_selection.py --config=config.yaml
+    cmd: python src/models/production_model_selection.py --config=params.yaml
     deps:
     - src/models/production_model_selection.py
     params:

@@ -3,6 +3,7 @@ from steps.cleaning_data import clean_df
 from steps.model_train import RegressionModel #train_model
 from steps.evaluation import evaluate_model
 import argparse
+from urllib.parse import urlparse
 import mlflow
 from mlflow.models import infer_signature
 from utils.methods import read_config, get_feats_target
@@ -31,29 +32,23 @@ def train_pipeline(config_path: str):
 	mlflow.set_experiment(mlflow_config["experiment_name"])
 	
 	with mlflow.start_run(run_name = mlflow_config["run_name"]) as mlops_run:
-		print('ENTERED MLFLOW RUN')
-		mlflow.log_params(model.params)
+		mlflow.log_params(model_params)
 		mlflow.log_metrics({'r2_score': r2_score, 'rmse': rmse})
 		
 		tracking_url_type_store = urlparse(mlflow.get_artifact_uri()).scheme
 		print(f'tracking_url_type_store: {tracking_url_type_store}')
-		if tracking_url_type_store != file:
+		if tracking_url_type_store != "file":
 			mlflow.sklearn.log_model(
                 model, 
                 "model", 
+                signature = signature,
+				input_example = X_train,
                 registered_model_name=mlflow_config["registered_model_name"])
-			# mlflow.sklearn.log_model(
-				# sk_model = model,
-				# artifact_path = "regression_model",
-				# signature = signature,
-				# input_example = X_train,
-				# registered_model_name = mlflow_config["registered_model_name"] 
-			# )
 		else:
 			mlflow.sklearn.load_model(model, "regression_model")
  
 if __name__=="__main__":
     args = argparse.ArgumentParser()
-    args.add_argument("--config", default="config.yaml")
+    args.add_argument("--config", default="params.yaml")
     parsed_args = args.parse_args()
     train_pipeline(config_path=parsed_args.config)

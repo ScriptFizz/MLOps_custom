@@ -30,6 +30,6 @@ def transform_df(config_path: str):
 
 if __name__=="__main__":
     args = argparse.ArgumentParser()
-    args.add_argument("--config", default="config.yaml")
+    args.add_argument("--config", default="params.yaml")
     parsed_args = args.parse_args()
     transform_df(config_path=parsed_args.config)

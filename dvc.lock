@@ -1,0 +1,89 @@
+schema: '2.0'
+stages:
+  raw_dataset_creation:
+    cmd: python src/data/loading_data.py --config=params.yaml
+    deps:
+    - path: data/external/kc_house_data.csv
+      hash: md5
+      md5: b1e7bdf4f3e61792c0979a5697dc7145
+      size: 2515206
+    - path: src/data/loading_data.py
+      hash: md5
+      md5: 7016ed70d0ccb3b9312af9fad46fc48d
+      size: 996
+    outs:
+    - path: data/raw/raw_data.csv
+      hash: md5
+      md5: a8b6eb88dcd335e7b07ef706272c768d
+      size: 2102995
+  transform data:
+    cmd: python src/data/transform_data.py --config=params.yaml
+    deps:
+    - path: data/raw/raw_data.csv
+      hash: md5
+      md5: a8b6eb88dcd335e7b07ef706272c768d
+      size: 2102995
+    - path: src/data/transform_data.py
+      hash: md5
+      md5: 66819014493afa9e38f1ba5f4fb357be
+      size: 1090
+    outs:
+    - path: data/interim/transformed_data.csv
+      hash: md5
+      md5: dcfac2251b168f970bd784ea4d0ce881
+      size: 1983821
+  split_data:
+    cmd: python src/data/split_data.py --config=params.yaml
+    deps:
+    - path: data/interim/transformed_data.csv
+      hash: md5
+      md5: dcfac2251b168f970bd784ea4d0ce881
+      size: 1983821
+    - path: src/data/split_data.py
+      hash: md5
+      md5: 38024cf951b32a758cc9b9dede470585
+      size: 1257
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: e539b9e09b454627b479cd8bf2a094e7
+      size: 397278
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e745c8b6f81a282e44d51524770b0003
+      size: 1586733
+  model_train:
+    cmd: python src/models/training_pipeline.py --config=params.yaml
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: e539b9e09b454627b479cd8bf2a094e7
+      size: 397278
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e745c8b6f81a282e44d51524770b0003
+      size: 1586733
+    - path: src/models/training_pipeline.py
+      hash: md5
+      md5: c02ed02379bdf220bacd208f7782aadc
+      size: 2408
+    params:
+      params.yaml:
+        model_config.params.max_depth: 6
+        model_config.params.n_estimators: 100
+  log_production_model:
+    cmd: python src/models/production_model_selection.py --config=params.yaml
+    deps:
+    - path: src/models/production_model_selection.py
+      hash: md5
+      md5: d015bc30db43c51a8f8d4048557d13db
+      size: 1693
+    params:
+      params.yaml:
+        model_config.params.max_depth: 6
+        model_config.params.n_estimators: 100
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: e53562e2f2514ad69743f3c9b139f42e
+      size: 3537793

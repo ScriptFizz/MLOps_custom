@@ -30,6 +30,6 @@ def load_raw_data(config_path: str):
 	
 if __name__ == "__main__":
 	args = argparse.ArgumentParser()
-	args.add_argument("--config", default = "config.yaml")
+	args.add_argument("--config", default = "params.yaml")
 	parsed_args = args.parse_args()
 	load_raw_data(parsed_args.config)
