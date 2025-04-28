@@ -7,3 +7,36 @@ In this project we tackle a regression problem, i.e. the prediction of housing p
 - Python
 - DVC
 - MLFlow
+
+## Project structure
+
+The code for the ML pipeline is stored in the src folder:
+
+``` bash
+
+src
+├── __init__.py
+├── data
+│   ├── __init__.py
+│   ├── loading_data.py
+│   ├── split_data.py
+│   └── transform_data.py
+├── models
+│   ├── production_model_selection.py
+│   └── training_pipeline.py
+├── prediction
+├── steps
+│   ├── __init__.py
+│   ├── cleaning_data.py
+│   ├── evaluation.py
+│   ├── ingest_data.py
+│   └── model_train.py
+└── utils
+    ├── __init__.py
+    ├── data_cleaning.py
+    ├── evaluation.py
+    ├── methods.py
+    └── model_development.py
+
+
+```
